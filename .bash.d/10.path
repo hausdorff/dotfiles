@@ -31,11 +31,14 @@ smartos)
 	INFOPATH="$INFOPATH:/opt/local/info:/opt/local/share/info"
 	;;
 macos)
-	PATH="$PATH:/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin"
-	PATH="$PATH:/usr/local/git/bin"
-	MANPATH="$MANPATH:/usr/share/man:/usr/X11R6/man"
+	PATH="$PATH:/usr/local/bin:/usr/local/sbin:/usr/local/git/bin"
+	PATH="$PATH:/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin"
+	PATH="$PATH:/usr/local/git/bin:/opt/local/bin:/opt/local/sbin"
+	MANPATH="$MANPATH:/usr/local/share/man:/usr/local/man"
 	MANPATH="$MANPATH:/usr/local/git/share/man"
-	INFOPATH="$INFOPATH:/usr/share/info"
+	MANPATH="$MANPATH:/usr/share/man:/usr/X11R6/man"
+	MANPATH="$MANPATH:/opt/local/share/man:/opt/local/man"
+	INFOPATH="$INFOPATH:/usr/share/info:/opt/local/share/info"
 	;;
 esac
 
