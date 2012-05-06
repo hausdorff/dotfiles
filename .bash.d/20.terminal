@@ -1,0 +1,67 @@
+#! /bin/bash
+
+if [ "$TERM" = "xterm" ]; then
+	if [ -z "$COLORTERM" ]; then
+		if [ -z "$XTERM_VERSION" ] ; then
+			echo "Warning: Terminal wrongly calling itself 'xterm'."
+		else
+			case "$XTERM_VERSION" in
+			"XTerm(256)") TERM="xterm-256color" ;;
+			"XTerm(88)") TERM="xterm-88color" ;;
+			"XTerm") ;;
+			*)
+				echo "Warning: Unknown xterm: $XTERM_VERSION"
+				;;
+			esac
+		fi
+	else
+		case "$COLORTERM" in
+		gnome-terminal) TERM="gnome-256color" ;;
+		*)
+			echo "Warning: Unknown COLORTERM: $COLORTERM"
+			;;
+		esac
+	fi
+fi
+
+_SCREEN_COLORS=$(tput colors 2>/dev/null)
+if [ -z "$_SCREEN_COLORS" ]; then
+	case "$TERM" in
+	screen-*color-bce)
+		echo "Unknown terminal $TERM. Falling back to 'screen-bce'."
+		TERM=screen-bce
+		;;
+	*-88color)
+		echo "Unknown terminal $TERM. Falling back to 'xterm-88color'."
+		TERM=xterm-88color
+		;;
+	*-256color)
+		echo "Unknown terminal $TERM. Falling back to 'xterm-256color'."
+		TERM=xterm-256color
+		;;
+	esac
+	_SCREEN_COLORS=$(tput colors 2>/dev/null)
+fi
+if [ -z "$_SCREEN_COLORS" ]; then
+	case "$TERM" in
+	gnome*|xterm*|konsole*|aterm|[Ee]term)
+		echo "Unknown terminal $TERM. Falling back to 'xterm'."
+		TERM=xterm
+		;;
+	rxvt*)
+		echo "Unknown terminal $TERM. Falling back to 'rxvt'."
+		TERM=rxvt
+		;;
+	screen*)
+		echo "Unknown terminal $TERM. Falling back to 'screen'."
+		TERM=screen
+		;;
+	esac
+	_SCREEN_COLORS=$(tput colors 2>/dev/null)
+fi
+if ! infocmp "$TERM" >/dev/null 2>&1; then
+	TERM=$(tset -q 2>/dev/null)
+	[ -z "$TERM" ] && TERM=vt100
+fi
+
+export TERM

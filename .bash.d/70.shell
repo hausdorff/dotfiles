@@ -1,0 +1,7 @@
+#! /bin/bash
+
+HISTSIZE=32768
+HISTFILESIZE=HISTSIZE
+HISTCONTROL=ignoredups
+
+shopt -s histappend

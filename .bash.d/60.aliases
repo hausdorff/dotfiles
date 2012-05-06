@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# Turn on ls colors if we have GNU ls and a reasonable TERM
+__colorls=no
+case "$TERM" in
+gnome*|screen*|xterm*|*rxvt|linux|color*xterm)
+	__safe_hash ls __ls
+	if [ "$__ls" != /usr/ucb/ls ] && \
+	    $__ls --color=tty >/dev/null 2>/dev/null; then
+		alias ls='ls --color=tty'
+		[ -f "$HOME/.dir_colors" ] && \
+		    eval $(dircolors "$HOME/.dir_colors" 2>/dev/null)
+	fi
+	;;
+esac
+
+if __safe_hash ncftp; then
+	alias ftp=ncftp
+fi
+
+if __safe_hash vim; then
+	alias vi='vim -X'
+fi
+
+if [ -x /opt/openoffice.org3/program/soffice ]; then
+	alias soffice=/opt/openoffice.org3/program/soffice
+fi

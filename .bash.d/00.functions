@@ -1,0 +1,83 @@
+#! /bin/bash
+
+#
+# If $1 exists, set $2 to its full path and return 0; else return 1.
+#
+function __safe_hash
+{
+	local res=$(hash "$1" 2>/dev/null && hash -t "$1" 2>/dev/null)
+	local code=$?
+	[[ $code -eq 0 && -n "$2" ]] && eval $"$2"="$res"
+	return $code
+}
+
+#
+# Outputs uname with the provided arguments, or "unknown" if that fails.
+#
+function __safe_uname
+{
+	local res=$(uname "$@" 2>/dev/null)
+	[ -z  "$res" ] && res="unknown"
+
+	echo "$res"
+	return 0
+}
+
+#
+# Succeeds silently if its input matches, fails otherwise.
+#
+function __qgrep
+{
+	grep "$@" >/dev/null 2>/dev/null
+}
+
+#
+# Helper for __link_subtrees
+#
+function __link_subtree
+{
+	for __f in $(cd "$1" && echo * 2>/dev/null); do
+		[ -e "$2/$__f" ] || ln -s "$1/$__f" "$2/$__f" 2>/dev/null
+	done
+}
+
+#
+# Replicate a symlink tree of everything under each of $2 .. $n under $1.
+# Useful for merging multiple sources; prefers earlier entries.
+#
+function __link_subtrees
+{
+	local dst=$1
+	shift
+
+	for __s in "$@"; do
+		[[ -n "$__s" && -d "$__s" ]] || continue
+		for __d in $(cd "$__s" && echo * 2>/dev/null); do
+			if [ -d "$__s/$__d" ]; then
+				mkdir -p "$dst/$__d"
+				__link_subtree "$__s/$__d" "$dst/$__d"
+			fi
+		done
+	done
+}
+
+#
+# Escape UTF-8 characters into their 3-byte format
+#
+function xencode
+{
+        printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
+	echo
+}
+
+function oencode
+{
+        printf "\\\x%s" $(printf "$@" | od -c -b | head -2 | tail -1)
+	echo
+}
+
+# Get a character’s Unicode code point
+function codepoint() {
+        perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
+        echo # newline
+}

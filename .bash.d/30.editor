@@ -1,0 +1,20 @@
+#! /bin/bash
+
+if __safe_hash less __less; then
+	PAGER="$__less -ns"
+elif ! __safe_hash more PAGER; then
+	PAGER=
+fi
+
+if __safe_hash vim __vim; then
+	EDITOR="$__vim -X"
+elif __safe_hash vi EDITOR; then :
+elif __safe_hash xemacs __emacs || __safe_hash emacs __emacs; then
+	EDITOR="$__emacs -nw"
+else
+	EDITOR=
+fi
+
+export PAGER EDITOR
+[ -z "$PAGER" ] && unset PAGER
+[ -z "$EDITOR" ] && unset EDITOR

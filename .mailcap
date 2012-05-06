@@ -1,0 +1,1 @@
+text/html; /opt/local/bin/elinks -dump %s; needsterminal; copiousoutput;

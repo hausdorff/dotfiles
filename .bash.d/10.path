@@ -1,0 +1,49 @@
+#! /bin/bash
+
+PATH="$HOME/$_ARCH-$_OS/bin:$HOME/bin"
+MANPATH="$HOME/share/man:$HOME/man"
+INFOPATH="$HOME/share/info:$HOME/info"
+
+case "$_OS" in
+illumos|openindiana)
+	PATH="$PATH:/usr/local/bin:/usr/local/sbin"
+	PATH="$PATH:/opt/local/bin:/opt/local/sbin"
+	PATH="$PATH:/usr/bin:/usr/sbin:/usr/gnu/bin"
+	PATH="$PATH:/usr/openwin/bin:/usr/X11R6/bin"
+	MANPATH="$MANPATH:/usr/local/man:/usr/local/share/man"
+	MANPATH="$MANPATH:/opt/local/man:/opt/local/share/man"
+	MANPATH="$MANPATH:/usr/share/man:/usr/man"
+	MANPATH="$MANPATH:/usr/gnu/man:/usr/gnu/share/man"
+	MANPATH="$MANPATH:/usr/openwin/man:/usr/X11R6/man"
+	INFOPATH="$INFOPATH:/usr/local/info:/usr/local/share/info"
+	INFOPATH="$INFOPATH:/opt/local/info:/opt/local/share/info"
+	INFOPATH="$INFOPATH:/usr/gnu/info:/usr/gnu/share/info"
+	INFOPATH="$INFOPATH:/usr/share/info:/usr/info"
+	;;
+smartos)
+	PATH="$PATH:/usr/local/bin:/usr/local/sbin"
+	PATH="$PATH:/usr/bin:/usr/sbin"
+	PATH="$PATH:/opt/local/bin:/opt/local/sbin"
+	MANPATH="$MANPATH:/usr/local/man:/usr/local/share/man"
+	MANPATH="$MANPATH:/usr/share/man:/usr/man"
+	MANPATH="$MANPATH:/opt/local/man:/opt/local/share/man"
+	INFOPATH="$INFOPATH:/usr/local/info:/usr/local/share/info"
+	INFOPATH="$INFOPATH:/opt/local/info:/opt/local/share/info"
+	;;
+macos)
+	PATH="$PATH:/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin"
+	PATH="$PATH:/usr/local/git/bin"
+	MANPATH="$MANPATH:/usr/share/man:/usr/X11R6/man"
+	MANPATH="$MANPATH:/usr/local/git/share/man"
+	INFOPATH="$INFOPATH:/usr/share/info"
+	;;
+esac
+
+if [ "$USERNAME" != root ]; then
+	PATH="$PATH:."
+	MANPATH="$MANPATH:..:."
+	INFOPATH="$INFOPATH:..:."
+fi
+
+unset LD_LIBRARY_PATH LD_LIBRARY_PATH_32 LD_LIBRARY_PATH_64
+export PATH MANPATH INFOPATH

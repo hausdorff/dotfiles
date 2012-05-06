@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# Set up MAIL for mutt, elm et al
+if [ -r "${HOME}/Mail/mbox" ]; then
+	MAIL="${HOME}/Mail/mbox"
+elif [ -r "/var/mail/${USERNAME}" ]; then
+	MAIL="/var/mail/${USERNAME}"
+elif [ -r "/var/spool/mail/${USERNAME}" ]; then
+	MAIL="/var/spool/mail/${USERNAME}"
+elif [ -r "/usr/spool/mail/${USERNAME}" ]; then
+	MAIL="/usr/spool/mail/${USERNAME}"
+else
+	unset MAIL
+fi
+
+if [ -z "${USERNAME}" ]; then
+	unset MAIL
+fi
+
+# Check for mail less often
+MAILCHECK=300

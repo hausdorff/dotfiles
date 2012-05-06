@@ -1,0 +1,18 @@
+#! /bin/bash
+
+[ -d "$HOME/.terminfo" ] || rm -f "$HOME/.terminfo" 2>/dev/null
+mkdir -p "$HOME/.terminfo" 2>/dev/null
+
+case $_OS in
+smartos) _TERMINFO=/opt/local/share/lib/terminfo ;;
+*) ;;
+esac
+
+_TERMINFO="$_TERMINFO:$HOME/.terminfo.d"
+IFS=":"
+set -- $_TERMINFO
+unset IFS
+
+__link_subtrees "$HOME/.terminfo" "$@"
+
+export TERMINFO="$HOME/.terminfo"

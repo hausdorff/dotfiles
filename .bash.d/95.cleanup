@@ -1,0 +1,3 @@
+#! /bin/bash
+
+rm -rf ~/.desktop* ~/.saves-* ~/.web ~/.webcache ~/.Trash 2>/dev/null

@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# Canonicalize our architecture
+case "$HOSTTYPE" in
+sun4|sun4?|sparc*)		_ARCH=sparc ;;
+i?86|i86pc|amd64|x86_64)	_ARCH=i386 ;;
+*)
+	__is_inter && echo "WARNING: $_ARCH is an unsupported architecture."
+	;;
+esac
+
+# Canonicalize our OS
+case "$OSTYPE" in
+darwin*)	_OS=macos ;;
+solaris*)
+	if __safe_uname -v | __qgrep ^joyent_; then
+		_OS=smartos
+	elif __safe_uname -v | __qgrep ^oi_; then
+		_OS=openindiana
+	else
+		_OS=illumos
+	fi
+	;;
+*)
+	_OS=$OSTYPE
+	__is_inter && echo "WARNING: $_OS is an unsupported OS."
+esac
