@@ -27,14 +27,20 @@ else
 	_RESET="\033[m"
 fi
 
-function _parse_git_dirty() {
+#
+# These should really be _parse_*; they are private but must not be deleted
+# as part of our variable cleanup.  Unfortunately, bash 4.1, at least, seems
+# to have a bug that causes _p to match _[A-Z] and _[:upper:] (but, worse
+# still, not _[:lower:] -- and _P matches _[a-z]).  Sigh.
+#
+function parse_git_dirty() {
 	[[ $(git status 2> /dev/null | tail -n1) != \
 	    "nothing to commit (working directory clean)" ]] && echo "*"
 }
 
-function _parse_git_branch() {
+function parse_git_branch() {
 	git branch --no-color 2> /dev/null | \
-	    sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(_parse_git_dirty)/"
+	    sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
 __user="\[$_BOLD$_MAGENTA\]\u"
@@ -44,7 +50,7 @@ __dir="\[$_GREEN\]\w"
 __safe_hash git && \
     __on="\[$_WHITE\]\$([[ -n \$(git branch 2>/dev/null) ]] && echo \" on \")"
 __safe_hash git && \
-    __branch="\[$_PURPLE\]\$(_parse_git_branch)"
+    __branch="\[$_PURPLE\]\$(parse_git_branch)"
 __dollar="\[$_WHITE\]\n\\$ \[$_RESET\]"
 
 PS1="$__user \[$_WHITE\]at $__host \[$_WHITE\]in $__dir$__on$__branch$__dollar"
