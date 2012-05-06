@@ -33,12 +33,15 @@ fi
 # to have a bug that causes _p to match _[A-Z] and _[:upper:] (but, worse
 # still, not _[:lower:] -- and _P matches _[a-z]).  Sigh.
 #
-function parse_git_dirty() {
+function parse_git_dirty
+{
+	[[ -z "${PWD/*illumos-joyent*/}" ]] && return 0
 	[[ $(git status 2> /dev/null | tail -n1) != \
 	    "nothing to commit (working directory clean)" ]] && echo "*"
 }
 
-function parse_git_branch() {
+function parse_git_branch
+{
 	git branch --no-color 2> /dev/null | \
 	    sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
