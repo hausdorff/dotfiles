@@ -48,6 +48,8 @@
 	pushInsteadOf = "git://gist.github.com/"
 [url "git://gist.github.com/"]
 	insteadOf = "gist:"
+[url "git@git.joyent.com:"]
+	insteadOf = "gj:"
 [user]
 	name = Keith M Wesolowski
 	email = wesolows@foobazco.org
