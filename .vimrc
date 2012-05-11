@@ -13,7 +13,6 @@ endif
 set background=dark
 set hlsearch
 set laststatus=2
-set mouse=a
 set noerrorbells
 set ruler
 set showmode
