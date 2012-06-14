@@ -50,3 +50,19 @@ fi
 
 unset LD_LIBRARY_PATH LD_LIBRARY_PATH_32 LD_LIBRARY_PATH_64
 export PATH MANPATH INFOPATH
+
+#
+# S9 and older have SuSv2 behaviour, which is surprising to many (most)
+# consumers of lib[v]snprintf(3c).  Make us like everyone else.
+#
+# Likewise, anyone who uses pthreads without linking with libpthread, which
+# is forgiveable since S10 and newer completely support it, gets the libc
+# version which just fails.  So it goes.
+#
+if [ "$_OS" = "illumos" -a "$(/bin/uname -r)" = "5.9" ]; then
+	LD_PRELOAD=/usr/lib/libpthread.so.1
+	if [ -r /opt/local/lib/libvsnprintf.so.1 ]; then
+		LD_PRELOAD="$LD_PRELOAD:/opt/local/lib/libvsnprintf.so.1"
+	fi
+	export LD_PRELOAD
+fi
