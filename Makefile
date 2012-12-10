@@ -18,6 +18,7 @@ FILES = \
 	.bash.d/30.editor \
 	.bash.d/60.aliases \
 	.bash.d/70.shell \
+	.bash.d/75.manta \
 	.bash.d/80.prompt \
 	.bash.d/85.vim \
 	.bash.d/90.mail \
