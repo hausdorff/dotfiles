@@ -1,0 +1,5 @@
+#! /bin/bash
+
+export MANTA_USER=wesolows
+export MANTA_URL="https://manta-beta.joyentcloud.com"
+export MANTA_KEY_ID="$(ssh-keygen -l -f ~/.ssh/id_rsa.pub | awk '{print $2}' | tr -d '\n')"
