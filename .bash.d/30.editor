@@ -7,7 +7,7 @@ elif ! __safe_hash more PAGER; then
 fi
 
 if __safe_hash vim __vim; then
-	EDITOR="$__vim -X"
+	EDITOR="$__vim"
 elif __safe_hash vi EDITOR; then :
 elif __safe_hash xemacs __emacs || __safe_hash emacs __emacs; then
 	EDITOR="$__emacs -nw"
