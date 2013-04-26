@@ -65,3 +65,8 @@ if ! infocmp "$TERM" >/dev/null 2>&1; then
 fi
 
 export TERM
+
+if [ -n "$TMUX" ]; then
+	stty columns 80
+	export COLUMNS=80
+fi
