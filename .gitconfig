@@ -53,3 +53,5 @@
 [user]
 	name = Keith M Wesolowski
 	email = wesolows@foobazco.org
+[push]
+	default = matching
